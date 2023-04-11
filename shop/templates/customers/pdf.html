@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Generate PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  </head>
+  <body>
+
+<h1 class="text-center">Order Details</h1>
+{% include '_messages.html' %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <b class="float-end">Invoice number: {{orders.invoice}}</b> 
+            <br>
+            Order Status: {{orders.status}}
+            <br>
+            Customer Name: {{customer.name}}
+            <br>
+            Customer email: {{customer.email}}
+            <br>
+            Phone Number: {{customer.phoneno}}  
+            <br>
+        <table class="table table-stripped table-condensed mt-3">
+            <thead>
+                <th>S.No</th>
+                <th>Name</th> 
+                <th>Color</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+            </thead>
+            <tbody>
+                {% for key, product in orders.orders.items() %}
+                {% set discount = "%0.2f" | format((product.discount/100) * product.price|float) %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{product.name}}</td>
+                    <form action="{{url_for('updatecart',id=key)}}" method="POST" class="form-group">
+                        <td>{{product.color|capitalize}}</td>
+                        <td>₹{{product.price}}</td>
+                        <td> {{product.quantity}} </td>
+                        {% if product.discount > 0 %}
+                        <td>{{product.discount}}%</td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        
+                        {% set subtotal=product.quantity|int * product.price|float  %}
+                        <td>₹{{"%0.2f"|format((subtotal|float) - discount|float)}}</td>
+                        
+                    </form>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Total: ₹{{total}}</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+               
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

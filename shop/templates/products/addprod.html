@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block content  %}
+
+{% include '_messages.html' %}
+
+<div class="container mb-3">    
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Add Product</h2>
+        {% from "_formhelpers.html" import render_field %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{render_field(form.name,class='form-control',placeholder='Add Product Name')}}
+            {{render_field(form.price,class='form-control',placeholder='Add Product Price')}}
+            {{render_field(form.discount,class='form-control',placeholder='Add Product Discount')}}
+            {{render_field(form.stock,class='form-control',placeholder='Add Product Stock')}}
+
+            <label for="brand">Add a Brand</label>
+            <select name="brand" id="brand" class="form-control">
+                <option value="">Select Brand</option>
+                {% for brand in brands %}
+                <option value="{{brand.id}}">{{brand.name}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="category">Add a Category</label>
+            <select name="category" id="category" class="form-control">
+                <option value="">Select Category</option>
+                {% for category in categories %}
+                <option value="{{category.id}}">{{category.name}}</option>
+                {% endfor %}
+            </select>
+
+            {{render_field(form.colors,class='form-control',placeholder='Add Product colors')}}
+            {{render_field(form.desc,class='form-control',placeholder='Add Product description',rows=10)}}
+
+                {{render_field(form.sellername,class='form-control',placeholder=seller.name)}}
+                {{render_field(form.selleremail,class='form-control',placeholder=seller.email)}}
+                {{render_field(form.selleraddress,class='form-control',placeholder=seller.address)}}
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">{{ render_field(form.image_1,class='form-control') }}</div>
+                    <div class="col-md-4">{{ render_field(form.image_2,class='form-control') }}</div>
+                    <div class="col-md-4">{{ render_field(form.image_3,class='form-control') }}</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Add Product</button>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+</div>
+
+{%  endblock content %}

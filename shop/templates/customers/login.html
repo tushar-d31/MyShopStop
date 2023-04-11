@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content  %}
+<div class="container mt-3">
+    {% from "_formhelpers.html" import render_field %}
+   
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        
+        <div class="text-center h1 text-white bg-info p-2">Login</div>
+        {% include '_messages.html' %}
+            <form method="POST" enctype="multipart/form-data" class="form-control mt-4">
+               
+                {{  form.csrf_token }}
+                <div>
+                    {{ render_field(form.email ,class="form-control") }}
+                    {{ render_field(form.password ,class="form-control") }}
+                </div>
+
+                <p><input type=submit value="Login" class="btn btn-outline-success btn-sm mt-3 float-left"></p>
+            </form>
+            <p><a href="{{url_for('customer_register')}}">Not an User?Register Here!</a></p>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+{%  endblock content %}

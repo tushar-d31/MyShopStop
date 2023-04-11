@@ -1,0 +1,88 @@
+<!--navbar starts-->
+<div class="container">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand"><h3>MyShopStop <i class="bi bi-bag-fill"></i></h3></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="/">All Products</a>
+              </li>
+    
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Brands
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for brand in brands %}
+                    <li><a class="dropdown-item" href="{{url_for('getbrand', id=brand.id)}}">{{brand.name}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+    
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% for category in categories %}
+                    <li><a class="dropdown-item" href="{{url_for('getcategory', id=category.id)}}">{{category.name}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person-fill"></i> Profile
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  {% if current_user.is_authenticated %}
+                  <li class="dropdown-item">
+                    <a href="#" class="nav-link"><i class="bi bi-person-check-fill"></i> {{current_user.name}}</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="{{url_for('customerLogout')}}" class="nav-link"><i class="bi bi-box-arrow-left"></i> Logout</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="#" class="nav-link"><i class="bi bi-pencil-square"></i> Edit </a>
+                  </li>
+                  {% else %}
+                  <li class="dropdown-item">
+                    <a href="{{url_for('customerLogin')}}" class="nav-link">Login</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a href="{{url_for('customer_register')}}" class="nav-link">Register</a>
+                  </li>
+                  
+                  {% endif %}
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('getcart')}}" tabindex="-1"> Cart ({{session['Cart']|length}}) <i class="bi bi-cart3"></i> </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{url_for('admin')}}" class="nav-link"> Admin Account</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{url_for('seller_register')}}" class="nav-link">Becomer a Seller</a>
+              </li>
+            </ul>
+            
+            <form class="d-flex" role="search" action="{{url_for('searchresult')}}">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <hr>
+    
+    <!--navbar ends-->
+    

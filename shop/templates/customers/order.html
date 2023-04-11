@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+
+<h1 class="text-center">Order Details</h1>
+{% include '_messages.html' %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <b class="float-end">Invoice number: {{orders.invoice}}</b>
+            <br>
+            Order Status: {{orders.status}}
+            <br>
+            Customer Name: {{customer.name}}
+            <br>
+            Customer email: {{customer.email}}
+            <br>
+            Phone Number: {{customer.phoneno}}  
+            <br>
+        <table class="table table-sm table-condensed table-striped mt-3">
+            <thead>
+                <th>S.No</th>
+                <th>Name</th> 
+                <th>Color</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+                <td></td>
+            </thead>
+            <tbody>
+                {% for key, product in orders.orders.items() %}
+                {% set discount = "%0.2f" | format((product.discount/100) * product.price|float) %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{product.name}}</td>
+                    <form action="{{url_for('updatecart',id=key)}}" method="POST" class="form-group">
+                        <td>{{product.color|capitalize}}</td>
+                        <td>₹{{product.price}}</td>
+                        <td> {{product.quantity}} </td>
+                        {% if product.discount > 0 %}
+                        <td>{{product.discount}}%</td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+                        
+                        {% set subtotal=product.quantity|int * product.price|float  %}
+                        <td>₹{{"%0.2f"|format((subtotal|float) - discount|float)}}</td>
+                        <td><img src="{{url_for('static' ,filename='images/'+ product.image)}}" alt="{{product.name}}" width="100" height="100"></td>
+                    </form>
+
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5"></td>
+                    <td width="1px"></td>
+                    <td colspan="1"><h5>Total: ₹{{total}}</h5></td>
+                    <td>
+                        <form action="{{url_for('generate_pdf',invoice=orders.invoice)}}" method="POST">
+                            <button type="submit" class="btn btn-danger btn-sm">Download Invoice</button>
+                        </form>
+                    </td>
+                </tr>
+               
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+{% endblock content %}

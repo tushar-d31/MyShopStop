@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content  %}
+
+{% include '_messages.html' %}
+
+<div class="container mb-3">    
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2 class="text-center">Add Product</h2>
+        {% from "_formhelpers.html" import render_field %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            <label for="product">Add a Product</label>
+            <select name="product" id="product" class="form-control">
+                <option value="">Select Product</option>
+                {% for product in products %}
+                <option value="{{product.id}}">{{product.name}}</option>
+                {% endfor %}
+            </select>
+
+                   
+            <!-- {{render_field(form.sellerid, class='form-control',placeholder=seller.id)}}  
+            {{render_field(form.sellername, class='form-control',placeholder=seller.name)}} 
+            {{render_field(form.selleremail, class='form-control',placeholder=seller.email)}} 
+            {{render_field(form.selleraddress, class='form-control',placeholder=seller.address)}}  -->
+
+            <!-- <div class="container">
+                <div class="row">
+                    <div class="col-md-4">{{ render_field(form.image_1,class='form-control') }}</div>
+                    <div class="col-md-4">{{ render_field(form.image_2,class='form-control') }}</div>
+                    <div class="col-md-4">{{ render_field(form.image_3,class='form-control') }}</div>
+                </div>
+            </div> -->
+            <button type="submit" class="btn btn-primary mt-4">Add Product</button>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+</div>
+
+{%  endblock content %}
